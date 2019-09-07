@@ -1,6 +1,5 @@
 import React from 'react';
 
-import PageLayout from 'components/PageLayout';
 import { CreateRoom } from './partials';
 
 const Home: React.FC = () => {
