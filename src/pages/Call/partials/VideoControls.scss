@@ -1,0 +1,25 @@
+.VideoControls {
+  &-button {
+    cursor: pointer;
+    margin: 5px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 20px;
+
+    &:hover {
+      background-color: darken(white, 10%);
+    }
+
+    &.inactive {
+      background-color: #f82f2e;
+
+      &:hover {
+        background-color: darken(#f82f2e, 10%);
+      }
+
+      svg {
+        fill: white;
+      }
+    }
+  }
+}

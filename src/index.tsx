@@ -6,11 +6,14 @@ import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { PeerProvider } from 'contexts/Peer';
+import { SettingsProvider } from 'contexts/Settings';
 
 ReactDOM.render(
   <BrowserRouter>
     <PeerProvider>
-      <App />
+      <SettingsProvider>
+        <App />
+      </SettingsProvider>
     </PeerProvider>
   </BrowserRouter>,
   document.getElementById('root'),

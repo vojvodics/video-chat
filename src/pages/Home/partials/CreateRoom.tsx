@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Form, Button } from 'antd';
+import { Form, Button, Skeleton } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { RouteComponentProps, withRouter } from 'react-router';
 import Socket from 'services/Socket';
@@ -13,7 +13,7 @@ const CreateRoomForm: React.FC<Props> = ({ history }) => {
 
   useEffect(() => {
     Socket.on(socketEvents.ROOM_CREATED, (room: string) => {
-      history.push(room);
+      history.push(`call/${room}`);
     });
 
     return () => {
@@ -22,12 +22,14 @@ const CreateRoomForm: React.FC<Props> = ({ history }) => {
   }, [history]);
 
   return (
-    <Form
-      onSubmit={e => {
-        e.preventDefault();
-        Socket.emit(socketEvents.INIT_ROOM, peer.id);
-      }}>
-      {/* <Form.Item>
+    <Skeleton active loading={!peer}>
+      {peer && (
+        <Form
+          onSubmit={e => {
+            e.preventDefault();
+            Socket.emit(socketEvents.INIT_ROOM, peer.id);
+          }}>
+          {/* <Form.Item>
         {getFieldDecorator('room name', {
           rules: [
             {
@@ -43,12 +45,14 @@ const CreateRoomForm: React.FC<Props> = ({ history }) => {
           />,
         )}
       </Form.Item> */}
-      <Form.Item>
-        <Button type='primary' htmlType='submit'>
-          Create room
-        </Button>
-      </Form.Item>
-    </Form>
+          <Form.Item>
+            <Button type='primary' htmlType='submit'>
+              Create room
+            </Button>
+          </Form.Item>
+        </Form>
+      )}
+    </Skeleton>
   );
 };
 

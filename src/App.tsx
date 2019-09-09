@@ -3,15 +3,14 @@ import { Switch, Route } from 'react-router';
 
 import './App.scss';
 import Home from './pages/Home';
-import PageLayout from 'components/PageLayout';
+import Call from 'pages/Call';
 
 const App: React.FC = () => {
   return (
-    <PageLayout>
-      <Switch>
-        <Route path='/' exact component={Home} />
-      </Switch>
-    </PageLayout>
+    <Switch>
+      <Route path='/' exact component={Home} />
+      <Route path='/call/:callId' component={Call} />
+    </Switch>
   );
 };
 

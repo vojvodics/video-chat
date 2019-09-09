@@ -4,4 +4,5 @@ export enum socketEvents {
   INVALID_ROOM = 'INVALID_ROOM',
   JOIN_ROOM = 'JOIN_ROOM',
   UPDATE_PEERS = 'UPDATE_PEERS',
+  LEAVE_ROOM = 'LEAVE_ROOM',
 }
