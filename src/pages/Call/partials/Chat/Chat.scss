@@ -1,0 +1,36 @@
+.Chat {
+  &-icon {
+    padding: 20px;
+    background-color: white;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: darken(white, 10%);
+    }
+  }
+
+  &-send {
+    display: flex;
+    align-items: flex-end;
+
+    &-icon {
+      flex: 0 0 30px;
+      fill: rgba(0, 0, 0, 0.4);
+    }
+
+    &-input {
+      flex: 1 1 auto;
+      margin-right: 10px;
+    }
+  }
+
+  &-messages {
+    flex-grow: 1;
+  }
+
+  .ant-drawer-body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
