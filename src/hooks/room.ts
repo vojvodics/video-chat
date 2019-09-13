@@ -1,24 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Socket from 'services/Socket';
 import { socketEvents } from 'constants/index';
 import { useCurrentPeer } from 'contexts/Peer';
-import { MediaConnection } from 'peerjs';
-
-export interface PeerObject {
-  peer: string;
-  calling: boolean;
-  stream: MediaStream | null;
-  disconnected?: boolean;
-  error?: any;
-  call?: MediaConnection;
-}
-
-interface PeerObjectMap {
-  [peer: string]: PeerObject;
-}
+import { useConnections, PeerObjectMap } from 'contexts/Connections';
 
 export function useRoom(roomId: string) {
-  const [peers, setPeers] = useState<PeerObjectMap>({});
+  const [peers, setPeers] = useConnections();
 
   const peer = useCurrentPeer();
 
@@ -30,7 +17,12 @@ export function useRoom(roomId: string) {
         const mappedPeers: PeerObjectMap = peerIds.reduce(
           (acc, curr) => ({
             ...acc,
-            [curr]: { peer: curr, calling: false, stream: null },
+            [curr]: {
+              peer: curr,
+              calling: false,
+              stream: null,
+              connecting: false,
+            },
           }),
           {},
         );
@@ -43,6 +35,7 @@ export function useRoom(roomId: string) {
       return () => {
         Socket.emit(socketEvents.LEAVE_ROOM, roomId, peer.id);
         Socket.off(socketEvents.UPDATE_PEERS);
+        setPeers({});
       };
     }
   }, [roomId, peer, setPeers]);

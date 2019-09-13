@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 import { useCurrentPeer } from 'contexts/Peer';
 
 import { useUserMedia } from './userMedia';
-import { useRoom, PeerObject } from './room';
+import { useRoom } from './room';
 import { useSettings } from 'contexts/Settings';
+import { PeerObject } from 'contexts/Connections';
 
 export function useCall(callId: string) {
   const settings = useSettings();

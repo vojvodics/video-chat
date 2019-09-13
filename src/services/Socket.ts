@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
 
-const baseURL = process.env.BE_URL || 'localhost:3001';
+const baseURL = process.env.REACT_APP_BACKEND_URL as string;
 
 export default io(baseURL);
