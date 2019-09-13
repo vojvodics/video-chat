@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Icon, Drawer, Input } from 'antd';
+import { Icon, Drawer, Input, Avatar } from 'antd';
 
 import './Chat.scss';
+import { useChat } from 'hooks/chat';
 
 const SendIcon = () => (
   <svg version='1.1' id='Capa_1' viewBox='0 0 448.011 448.011'>
@@ -15,9 +16,24 @@ const SendIcon = () => (
 
 const { TextArea } = Input;
 
+const timeFormatter = new Intl.DateTimeFormat(window.navigator.language, {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+});
+
 const Chat = () => {
   const [chatOpen, setChatOpen] = useState(false);
   const [value, setValue] = useState('');
+  const { sortedMessages, sendMessage, peer } = useChat();
+
+  const handleSendMessage = () => {
+    sendMessage(value);
+    setValue('');
+  };
 
   return (
     <>
@@ -32,7 +48,25 @@ const Chat = () => {
         visible={chatOpen}
         width='300px'
         onClose={() => setChatOpen(false)}>
-        <div className='Chat-messages'>Messages</div>
+        <div className='Chat-messages'>
+          {sortedMessages.map(({ timestamp, text, from }) => (
+            <div
+              className={`Chat-message ${peer && peer.id === from && 'mine'}`}>
+              <Avatar size={40} className='Chat-message-avatar'>
+                {from.slice(0, 1)}
+              </Avatar>
+              <div className='Chat-message-container'>
+                <div className='Chat-message-meta'>
+                  {/* <div className='Chat-message-user'>{from}</div> */}
+                  <div className='Chat-message-time'>
+                    {timeFormatter.format(timestamp)}
+                  </div>
+                </div>
+                <div className='Chat-message-text'>{text}</div>
+              </div>
+            </div>
+          ))}
+        </div>
         <div className='Chat-send'>
           <TextArea
             value={value}
@@ -40,11 +74,12 @@ const Chat = () => {
             placeholder='Write your message here'
             autosize={{ minRows: 1, maxRows: 5 }}
             className='Chat-send-input'
-            onPressEnter={console.log}
+            onPressEnter={handleSendMessage}
           />
           <Icon
             className='Chat-send-icon'
             component={SendIcon}
+            onClick={handleSendMessage}
             style={{ fontSize: '20px' }}
           />
         </div>

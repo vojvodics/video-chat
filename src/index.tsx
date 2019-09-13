@@ -7,12 +7,15 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { PeerProvider } from 'contexts/Peer';
 import { SettingsProvider } from 'contexts/Settings';
+import { ConnectionsProvider } from 'contexts/Connections';
 
 ReactDOM.render(
   <BrowserRouter>
     <PeerProvider>
       <SettingsProvider>
-        <App />
+        <ConnectionsProvider>
+          <App />
+        </ConnectionsProvider>
       </SettingsProvider>
     </PeerProvider>
   </BrowserRouter>,
