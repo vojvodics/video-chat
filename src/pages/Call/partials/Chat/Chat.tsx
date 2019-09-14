@@ -49,8 +49,9 @@ const Chat = () => {
         width='300px'
         onClose={() => setChatOpen(false)}>
         <div className='Chat-messages'>
-          {sortedMessages.map(({ timestamp, text, from }) => (
+          {sortedMessages.map(({ timestamp, text, from, id }) => (
             <div
+              key={id}
               className={`Chat-message ${peer && peer.id === from && 'mine'}`}>
               <Avatar size={40} className='Chat-message-avatar'>
                 {from.slice(0, 1)}
