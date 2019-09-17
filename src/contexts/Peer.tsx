@@ -7,8 +7,11 @@ import LocalStorage from 'services/LocalStorage';
 const PeerContext = createContext<Peer | undefined>(undefined);
 const PEER_STORAGE_KEY = '_video-chat_peer';
 
-// TODO: add peer server on be
-const peer = new Peer(LocalStorage.get(PEER_STORAGE_KEY) || undefined);
+const peer = new Peer(LocalStorage.get(PEER_STORAGE_KEY) || undefined, {
+  host: (process.env.REACT_APP_BACKEND_URL as string).replace(':3001', ''),
+  port: 3001,
+  path: '/peerjs',
+});
 
 const PeerProvider: React.FC = ({ children }) => {
   return <PeerContext.Provider value={peer}>{children}</PeerContext.Provider>;
