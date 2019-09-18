@@ -1,8 +1,8 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useLayoutEffect } from 'react';
 
 export const useVideo = (stream: MediaStream | null) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (videoRef.current) {
       videoRef.current.srcObject = stream;
     }

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Icon, Drawer, Input, Avatar } from 'antd';
+import { Icon, Drawer, Input, Avatar, Badge, Button } from 'antd';
 
 import './Chat.scss';
 import { useChat } from 'hooks/chat';
+import { withRouter, RouteComponentProps } from 'react-router';
+import { useAutoScroll } from 'hooks/autoScroll';
 
 const SendIcon = () => (
   <svg version='1.1' id='Capa_1' viewBox='0 0 448.011 448.011'>
@@ -25,36 +27,67 @@ const timeFormatter = new Intl.DateTimeFormat(window.navigator.language, {
   second: '2-digit',
 });
 
-const Chat = () => {
+type Props = RouteComponentProps<{ callId: string }>;
+
+const Chat: React.FC<Props> = ({
+  match: {
+    params: { callId },
+  },
+}) => {
   const [chatOpen, setChatOpen] = useState(false);
   const [value, setValue] = useState('');
-  const { sortedMessages, sendMessage, peer } = useChat();
+  const {
+    sortedMessages,
+    sendMessage,
+    peer,
+    markAllAsRead,
+    unreadMessagesCount,
+  } = useChat(callId);
+
+  const { ref, doScroll, canScroll } = useAutoScroll();
 
   const handleSendMessage = () => {
-    sendMessage(value);
-    setValue('');
+    if (value) {
+      sendMessage(value);
+      setValue('');
+      // wait for message to be added to dom
+      // hack but works
+      setTimeout(() => {
+        doScroll();
+      });
+    }
   };
 
   return (
     <>
-      <Icon
+      <div
         className='Chat-icon'
-        onClick={() => setChatOpen(true)}
-        type='message'
-        style={{ fontSize: '40px' }}
-      />
+        onClick={() => {
+          setChatOpen(true);
+          markAllAsRead();
+        }}>
+        <Badge count={unreadMessagesCount} overflowCount={9}>
+          <Button
+            type='link'
+            href='#'
+            shape='circle'
+            icon='message'
+            size='large'
+          />
+        </Badge>
+      </div>
       <Drawer
         className='Chat'
         visible={chatOpen}
         width='300px'
         onClose={() => setChatOpen(false)}>
-        <div className='Chat-messages'>
+        <div className='Chat-messages' ref={ref}>
           {sortedMessages.map(({ timestamp, text, from, id }) => (
             <div
               key={id}
               className={`Chat-message ${peer && peer.id === from && 'mine'}`}>
               <Avatar size={40} className='Chat-message-avatar'>
-                {from.slice(0, 1)}
+                {from && from.slice(0, 1)}
               </Avatar>
               <div className='Chat-message-container'>
                 <div className='Chat-message-meta'>
@@ -67,6 +100,26 @@ const Chat = () => {
               </div>
             </div>
           ))}
+          {canScroll && (
+            <>
+              <Badge
+                dot={unreadMessagesCount > 0}
+                className='Chat-messages-down'
+              />
+              <Button
+                href='#'
+                type='link'
+                shape='circle'
+                icon='down-circle'
+                size='large'
+                className='Chat-messages-down'
+                onClick={() => {
+                  doScroll();
+                  markAllAsRead();
+                }}
+              />
+            </>
+          )}
         </div>
         <div className='Chat-send'>
           <TextArea
@@ -78,7 +131,7 @@ const Chat = () => {
             onPressEnter={handleSendMessage}
           />
           <Icon
-            className='Chat-send-icon'
+            className={`Chat-send-icon ${value.length === 0 ? 'disabled' : ''}`}
             component={SendIcon}
             onClick={handleSendMessage}
             style={{ fontSize: '20px' }}
@@ -89,4 +142,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default withRouter(Chat);

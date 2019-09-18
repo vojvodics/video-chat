@@ -3,6 +3,7 @@ import uuid from 'uuidv4';
 import { useConnections } from 'contexts/Connections';
 import { useCurrentPeer } from 'contexts/Peer';
 import LocalStorage from 'services/LocalStorage';
+import { notification } from 'antd';
 
 const CHAT_STORAGE_KEY = '_video-chat_storage';
 
@@ -18,23 +19,23 @@ interface MessageMap {
   [id: string]: Message;
 }
 
-// type Action = 'NEW_MESSAGE' | 'MARK_AS_READ' | ''
-
-// const messageReducer = (state: MessageMap, action: Action) => {
-
-// }
-
-const initialMessages: MessageMap =
+const initialMessages: { [id: string]: MessageMap } =
   LocalStorage.getJSON(CHAT_STORAGE_KEY) || {};
 
-export const useChat = () => {
+export const useChat = (callId: string) => {
   const [peers, setPeers] = useConnections();
   const peer = useCurrentPeer();
-  const [chatMessages, setChatMessages] = useState(initialMessages);
+  const [chatMessages, setChatMessages] = useState(
+    initialMessages[callId] || ({} as MessageMap),
+  );
 
   useEffect(() => {
-    LocalStorage.set(CHAT_STORAGE_KEY, chatMessages);
-  }, [chatMessages]);
+    const allMessages: { [id: string]: MessageMap } =
+      LocalStorage.getJSON(CHAT_STORAGE_KEY) || {};
+    allMessages[callId] = chatMessages;
+    // race condition?
+    LocalStorage.set(CHAT_STORAGE_KEY, allMessages);
+  }, [chatMessages, callId]);
 
   const addNewMessage = useCallback(
     (message: Message) =>
@@ -56,7 +57,20 @@ export const useChat = () => {
     unreadMessages,
   ]);
 
-  const markAsRead = useCallback(() => {}, []);
+  const markAsRead = useCallback(
+    (mId: string) => {
+      setChatMessages(m => ({ ...m, [mId]: { ...m[mId], status: 'READ' } }));
+    },
+    [setChatMessages],
+  );
+
+  const markAllAsRead = useCallback(() => {
+    const nowReadMsgs = unreadMessages.reduce(
+      (acc, curr) => ({ ...acc, [curr.id]: { ...curr, status: 'READ' } }),
+      {},
+    );
+    setChatMessages(m => ({ ...m, ...nowReadMsgs }));
+  }, [setChatMessages, unreadMessages]);
 
   const sendMessage = useCallback(
     (message: string) => {
@@ -70,6 +84,7 @@ export const useChat = () => {
         };
 
         addNewMessage(msg);
+        markAsRead(msg.id);
 
         Object.values(peers).forEach(({ data }) => {
           if (data) {
@@ -95,6 +110,13 @@ export const useChat = () => {
       const handleData = (data: Message) => {
         console.log(data);
         addNewMessage(data);
+        notification.open({
+          message: `New message from ${data.from}`,
+          description: data.text,
+          onClick: () => {
+            markAsRead(data.id);
+          },
+        });
       };
 
       Object.values(peers).map(p => {
@@ -115,8 +137,14 @@ export const useChat = () => {
           [conn.peer]: { ...prs[conn.peer], data: conn },
         }));
       });
+
+      return () => {
+        peer.off('connection', () => {
+          console.log('removing connection listener');
+        });
+      };
     }
-  }, [peer, peers, setPeers, addNewMessage]);
+  }, [peer, peers, setPeers, addNewMessage, markAsRead]);
 
   return {
     chatMessages,
@@ -124,5 +152,6 @@ export const useChat = () => {
     sortedMessages,
     unreadMessagesCount,
     peer,
+    markAllAsRead,
   };
 };
