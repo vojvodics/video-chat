@@ -6,6 +6,8 @@ import { socketEvents } from 'constants/index';
 import { FormComponentProps } from 'antd/lib/form';
 import { useSetPeer } from 'contexts/Peer';
 
+import './RegisterCall.scss';
+
 type Props = RouteComponentProps<{ callId: string }> & FormComponentProps;
 
 const RegisterCall: React.FC<Props> = ({
@@ -20,6 +22,7 @@ const RegisterCall: React.FC<Props> = ({
 
   return (
     <Form
+      className='RegisterCall'
       onSubmit={e => {
         e.preventDefault();
         const username = getFieldValue('username');
@@ -27,6 +30,7 @@ const RegisterCall: React.FC<Props> = ({
         setPeer(username);
         history.replace(pathname.replace('/register', ''));
       }}>
+      <h1>Enter your username</h1>
       <Form.Item>
         {getFieldDecorator('username', {
           rules: [
@@ -47,7 +51,7 @@ const RegisterCall: React.FC<Props> = ({
         })(<Input prefix={<Icon type='user' />} placeholder='Username' />)}
       </Form.Item>
       <Form.Item>
-        <Button type='primary' htmlType='submit'>
+        <Button shape='round' type='primary' block htmlType='submit'>
           Join
         </Button>
       </Form.Item>

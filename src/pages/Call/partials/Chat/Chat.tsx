@@ -49,13 +49,13 @@ const Chat: React.FC<Props> = ({
   const handleSendMessage = () => {
     if (value) {
       sendMessage(value);
-      setValue('');
       // wait for message to be added to dom
       // hack but works
       setTimeout(() => {
         doScroll();
       });
     }
+    setValue('');
   };
 
   return (
