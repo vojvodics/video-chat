@@ -27,7 +27,7 @@ const CreateRoomForm: React.FC<Props> = ({ history }) => {
         <Form
           onSubmit={e => {
             e.preventDefault();
-            Socket.emit(socketEvents.INIT_ROOM, peer.id);
+            Socket.emit(socketEvents.INIT_ROOM);
           }}>
           {/* <Form.Item>
         {getFieldDecorator('room name', {

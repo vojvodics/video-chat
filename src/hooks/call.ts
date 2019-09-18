@@ -85,5 +85,6 @@ export function useCall(callId: string) {
     myStream: stream,
     peers,
     loading: peer === null,
+    peer,
   };
 }
