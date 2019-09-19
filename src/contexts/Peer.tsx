@@ -24,7 +24,7 @@ const peerUsername = LocalStorage.get(PEER_STORAGE_KEY) || null;
 
 const peerOptions = {
   host: (process.env.REACT_APP_BACKEND_URL as string).replace(':3001', ''),
-  port: 3001,
+  // port: 3001,
   path: '/peerjs',
 };
 
