@@ -40,8 +40,6 @@ export function useRoom(roomId: string) {
     }
   }, [roomId, peer, setPeers]);
 
-  console.log(peers);
-
   return {
     peers,
     setPeers,

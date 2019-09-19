@@ -6,6 +6,8 @@ import Socket from 'services/Socket';
 import { socketEvents } from 'constants/index';
 import { useCurrentPeer } from 'contexts/Peer';
 
+import './CreateRoom.scss';
+
 type Props = FormComponentProps & RouteComponentProps;
 
 const CreateRoomForm: React.FC<Props> = ({ history }) => {
@@ -25,10 +27,13 @@ const CreateRoomForm: React.FC<Props> = ({ history }) => {
     <Skeleton active loading={!peer}>
       {peer && (
         <Form
+          className='CreateRoom'
           onSubmit={e => {
             e.preventDefault();
-            Socket.emit(socketEvents.INIT_ROOM, peer.id);
+            Socket.emit(socketEvents.INIT_ROOM);
           }}>
+          <h1>Welcome</h1>
+          <p>What are you waiting for? Join</p>
           {/* <Form.Item>
         {getFieldDecorator('room name', {
           rules: [
@@ -46,7 +51,7 @@ const CreateRoomForm: React.FC<Props> = ({ history }) => {
         )}
       </Form.Item> */}
           <Form.Item>
-            <Button type='primary' htmlType='submit'>
+            <Button shape='round' type='primary' block htmlType='submit'>
               Create room
             </Button>
           </Form.Item>

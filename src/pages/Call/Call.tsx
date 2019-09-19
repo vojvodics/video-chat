@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
+import { withRouter, RouteComponentProps, Redirect } from 'react-router';
 import { useCall } from 'hooks/call';
-import { Skeleton } from 'antd';
 
 import { VideoControls, Video, Chat } from './partials';
 
@@ -13,13 +12,18 @@ const Call: React.FC<Props> = ({
   match: {
     params: { callId },
   },
+  location: { pathname },
 }) => {
-  const { myStream, peers, loading } = useCall(callId);
+  const { myStream, peers, peer } = useCall(callId);
 
   const [activeStream, setActiveStream] = useState(myStream);
 
+  if (!peer) {
+    return <Redirect to={`${pathname}/register`} />;
+  }
+
   return (
-    <Skeleton active loading={loading} className='Call'>
+    <div className='Call'>
       <div className='Call'>
         <div className='Video-previews'>
           <div
@@ -48,7 +52,7 @@ const Call: React.FC<Props> = ({
           <Chat />
         </div>
       </div>
-    </Skeleton>
+    </div>
   );
 };
 
