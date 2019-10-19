@@ -1226,10 +1226,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
   integrity sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==
 
-"@types/node@^10.14.12":
-  version "10.14.17"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.17.tgz#b96d4dd3e427382482848948041d3754d40fd5ce"
-  integrity sha512-p/sGgiPaathCfOtqu2fx5Mu1bcjuP8ALFg4xpGgNkcin7LwRyzUKniEHBKdcE1RPsenq5JVPIpMTJSygLboygQ==
+"@types/node@^10.14.17":
+  version "10.14.22"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.22.tgz#34bcdf6b6cb5fc0db33d24816ad9d3ece22feea4"
+  integrity sha512-9taxKC944BqoTVjE+UT3pQH0nHZlTvITwfsOZqyc+R3sfJuxaTtxWjfn1K2UlxyPcKHf0rnaXcVFrS9F9vf0bw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -6147,11 +6147,6 @@ js-base64@^2.1.8:
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.5.1.tgz#1efa39ef2c5f7980bb1784ade4a8af2de3291121"
   integrity sha512-M7kLczedRMYX4L8Mdh4MzyAMM9O5osx+4FcOQuTvr3A9F2D9S5JXheN0ewNbrvK2UatkTRhL5ejGmGSjNMiZuw==
 
-js-binarypack@0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/js-binarypack/-/js-binarypack-0.0.9.tgz#454243d3de212961cc1514a2f119dec2faf64035"
-  integrity sha1-RUJD094hKWHMFRSi8Rnewvr2QDU=
-
 js-levenshtein@^1.1.3:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/js-levenshtein/-/js-levenshtein-1.1.6.tgz#c6cee58eb3550372df8deb85fad5ce66ce01d59d"
@@ -7835,24 +7830,23 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-peerjs-js-binarypack@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/peerjs-js-binarypack/-/peerjs-js-binarypack-1.0.0.tgz#d2e8c64610275caa94a7c5f4b437ec9453c82456"
-  integrity sha512-XRk2K2zF75ers+J5GrXeB3J2VrICVxRnkH9RjJepXgd9AK2o0lnMt3Stjyp7QlYPZ6xWmeJxR9m2YjBMmiThDw==
+peerjs-js-binarypack@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/peerjs-js-binarypack/-/peerjs-js-binarypack-1.0.1.tgz#80fa2b61c794a6b16d64253700405e476ada29be"
+  integrity sha512-N6aeia3NhdpV7kiGxJV5xQiZZCVEEVjRz2T2C6UZQiBkHWHzUv/oWA4myQLcwBwO8LUoR1KWW5oStvwVesmfCg==
 
-peerjs@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/peerjs/-/peerjs-1.0.4.tgz#e99858b4d80be09873092a627a3b893d0ed245f9"
-  integrity sha512-OwAKcv9bOTAs/X9Xx+8vJVdz7KCIMY0d3FKFg8670ZJChTuNaQ04N3DOKWqHJl6XqbmsZ6k4SON9UuOhhz0mvw==
+peerjs@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/peerjs/-/peerjs-1.1.0.tgz#acfcaa366a43b1a3a002b7ef231b63942b10b6ce"
+  integrity sha512-y5ndx8sTOOFnU3AcWjXaQplgmaxVZ6oT2q/0QazSmRjf+pSlnDfpAd7lM7m3YxFGJ6iM/0uopdpiSX2Ql64kug==
   dependencies:
-    "@types/node" "^10.14.12"
+    "@types/node" "^10.14.17"
     "@types/webrtc" "^0.0.25"
     eventemitter3 "^3.1.2"
     opencollective "^1.0.3"
     opencollective-postinstall "^2.0.0"
-    peerjs-js-binarypack "1.0.0"
-    reliable "git+https://github.com/michelle/reliable.git"
-    webrtc-adapter "^7.2.6"
+    peerjs-js-binarypack "1.0.1"
+    webrtc-adapter "^7.3.0"
 
 performance-now@^2.1.0:
   version "2.1.0"
@@ -9701,12 +9695,6 @@ relateurl@0.2.x:
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
 
-"reliable@git+https://github.com/michelle/reliable.git":
-  version "0.1.0"
-  resolved "git+https://github.com/michelle/reliable.git#70604f577ae55a2eb015c17d73cc8d9dce5f9ec4"
-  dependencies:
-    js-binarypack "0.0.9"
-
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
@@ -11494,7 +11482,7 @@ webpack@4.39.1:
     watchpack "^1.6.0"
     webpack-sources "^1.4.1"
 
-webrtc-adapter@^7.2.6:
+webrtc-adapter@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-7.3.0.tgz#a65e18aad42759bab6ced7f8cfff11b051321e2a"
   integrity sha512-pKcwt6IR6RLCD6jlcdOOi88iVwdzppHlkOhtgTSuZHtYTxdD09t5fA1Di7GJU7je8oHcCBlNfb7zwBsetERnmQ==
