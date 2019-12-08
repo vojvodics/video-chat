@@ -22,9 +22,14 @@ let initialPeer: PeerType = null;
 
 const peerUsername = LocalStorage.get(PEER_STORAGE_KEY) || null;
 
+const connURL = process.env.REACT_APP_BACKEND_URL as string;
+
+const isProd = !connURL.includes(':3001');
+
 const peerOptions = {
-  host: (process.env.REACT_APP_BACKEND_URL as string).replace(':3001', ''),
-  port: 3001,
+  host: connURL.replace(':3001', ''),
+  // host: process.env.REACT_APP_BACKEND_URL,
+  port: isProd ? ('' as any) : 3001,
   path: '/peerjs',
 };
 
