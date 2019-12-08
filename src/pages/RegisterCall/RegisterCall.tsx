@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Form, Button, Input, Icon } from 'antd';
 import Socket from 'services/Socket';
 import { socketEvents } from 'constants/index';
 import { FormComponentProps } from 'antd/lib/form';
-import { useSetPeer } from 'contexts/Peer';
+import { useSetPeer, useCurrentPeer } from 'contexts/Peer';
 
 import './RegisterCall.scss';
 
@@ -18,7 +18,15 @@ const RegisterCall: React.FC<Props> = ({
   history,
   form: { getFieldDecorator, getFieldValue },
 }) => {
+  const [loading, setLoading] = useState(false);
   const setPeer = useSetPeer();
+  const peer = useCurrentPeer();
+
+  useEffect(() => {
+    if (peer && peer.id) {
+      history.replace(pathname.replace('/register', ''));
+    }
+  }, [peer]);
 
   return (
     <Form
@@ -26,9 +34,10 @@ const RegisterCall: React.FC<Props> = ({
       onSubmit={e => {
         e.preventDefault();
         const username = getFieldValue('username');
+
         Socket.emit(socketEvents.JOIN_ROOM, callId, username);
         setPeer(username);
-        history.replace(pathname.replace('/register', ''));
+        setLoading(true);
       }}>
       <h1>Enter your username</h1>
       <Form.Item>
@@ -51,7 +60,12 @@ const RegisterCall: React.FC<Props> = ({
         })(<Input prefix={<Icon type='user' />} placeholder='Username' />)}
       </Form.Item>
       <Form.Item>
-        <Button shape='round' type='primary' block htmlType='submit'>
+        <Button
+          shape='round'
+          type='primary'
+          block
+          htmlType='submit'
+          loading={loading}>
           Join
         </Button>
       </Form.Item>

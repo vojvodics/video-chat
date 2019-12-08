@@ -98,7 +98,7 @@ export const useChat = (callId: string) => {
 
   useEffect(() => {
     if (peer) {
-      console.log('setting up');
+      console.log('setting up', peer.id);
       const handleOpen = (peer: string) => () => {
         console.log('connection open');
         setPeers(prs => ({
@@ -120,7 +120,13 @@ export const useChat = (callId: string) => {
       };
 
       Object.values(peers).map(p => {
-        if (!p.connecting && !p.data && p.peer !== peer.id && !p.disconnected) {
+        if (
+          !p.connecting &&
+          peer.id !== null &&
+          !p.data &&
+          p.peer !== peer.id &&
+          !p.disconnected
+        ) {
           const data = peer.connect(p.peer);
           data.on('open', handleOpen(p.peer));
           data.on('data', handleData);

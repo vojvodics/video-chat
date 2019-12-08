@@ -62,11 +62,11 @@ export function useCall(callId: string) {
         if (
           !p.calling &&
           p.stream === null &&
+          peer.id !== null &&
           !p.disconnected &&
           p.peer !== peer.id
         ) {
           const mediaconn = peer.call(p.peer, stream);
-          console.log('Attempting to call', p);
           mediaconn.on('stream', handleStream(p.peer));
 
           mediaconn.on('error', handleError(p.peer));
