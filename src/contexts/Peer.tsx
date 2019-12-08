@@ -27,10 +27,11 @@ const connURL = process.env.REACT_APP_BACKEND_URL as string;
 const isProd = !connURL.includes(':3001');
 
 const peerOptions = {
-  host: connURL.replace(':3001', ''),
+  host: connURL.replace(':3001', '').replace(isProd ? 'https://' : '', ''),
   // host: process.env.REACT_APP_BACKEND_URL,
   port: isProd ? ('' as any) : 3001,
   path: '/peerjs',
+  secure: isProd,
 };
 
 if (peerUsername) {
