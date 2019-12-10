@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.26.0",
+    "antd": "^3.26.2",
     "peerjs": "https://github.com/vojvodics/peerjs",
     "react": "^16.12.0",
     "react-cache": "^2.0.0-alpha.1",
